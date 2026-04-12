@@ -134,6 +134,8 @@ You can (and should) pass these as environment variables from secrets.
 
 Read the [deployment.md](./deployment.md) docs for more details.
 
+> Note: database configuration now uses `POSTGRES_HOST` instead of `POSTGRES_SERVER`. If you manage existing deployments, update your runtime environment variables, secrets, or Docker/Kubernetes configuration before or together with deploying this version.
+
 ### Generate Secret Keys
 
 Some environment variables in the `.env` file have a default value of `changethis`.
