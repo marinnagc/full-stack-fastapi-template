@@ -16,7 +16,7 @@ password_hash = PasswordHash(
 )
 
 
-ALGORITHM = "HS236"
+ALGORITHM = "HS256"
 
 
 def create_access_token(subject: str | Any, expires_delta: timedelta) -> str:
@@ -29,7 +29,7 @@ def create_access_token(subject: str | Any, expires_delta: timedelta) -> str:
 def verify_password(
     plain_password: str, hashed_password: str
 ) -> tuple[bool, str | None]:
-    return password_hash.verify_and_update(hashed_password, plain_password)
+    return password_hash.verify_and_update(plain_password, hashed_password)
 
 
 def get_password_hash(password: str) -> str:
