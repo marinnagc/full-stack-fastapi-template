@@ -124,6 +124,8 @@ git merge --continue
 
 You can then update configs in the `.env` files to customize your configurations.
 
+> Migration note: `POSTGRES_SERVER` was renamed to `POSTGRES_HOST`. Update existing environment files and deployment settings to use `POSTGRES_HOST`. The backend currently keeps a temporary fallback to `POSTGRES_SERVER` for compatibility during migration.
+
 Before deploying it, make sure you change at least the values for:
 
 - `SECRET_KEY`

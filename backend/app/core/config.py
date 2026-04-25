@@ -1,3 +1,4 @@
+import os
 import secrets
 import warnings
 from typing import Annotated, Any, Literal
@@ -50,11 +51,25 @@ class Settings(BaseSettings):
 
     PROJECT_NAME: str
     SENTRY_DSN: HttpUrl | None = None
-    POSTGRES_HOST: str
+    POSTGRES_HOST: str = ""
     POSTGRES_PORT: int = 5432
     POSTGRES_USER: str
     POSTGRES_PASSWORD: str = ""
     POSTGRES_DB: str = ""
+
+    @model_validator(mode="after")
+    def _set_postgres_host(self) -> Self:
+        if not self.POSTGRES_HOST:
+            postgres_server = os.getenv("POSTGRES_SERVER", "")
+            if postgres_server:
+                self.POSTGRES_HOST = postgres_server
+                warnings.warn(
+                    "POSTGRES_SERVER is deprecated, use POSTGRES_HOST instead.",
+                    stacklevel=1,
+                )
+        if not self.POSTGRES_HOST:
+            raise ValueError("POSTGRES_HOST is not set")
+        return self
 
     @computed_field  # type: ignore[prop-decorator]
     @property

@@ -7,7 +7,7 @@ import {
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 
-import type { Body_login_login_access_token as AccessToken } from "@/client"
+import type { Body_login_login_access_token as LoginRequest } from "@/client"
 import { AuthLayout } from "@/components/Common/AuthLayout"
 import {
   Form,
@@ -28,7 +28,7 @@ const formSchema = z.object({
     .string()
     .min(1, { message: "Password is required" })
     .min(8, { message: "Password must be at least 8 characters" }),
-}) satisfies z.ZodType<AccessToken>
+}) satisfies z.ZodType<{ username: string; password: string }>
 
 type FormData = z.infer<typeof formSchema>
 
@@ -65,9 +65,9 @@ function Login() {
   const onSubmit = (data: FormData) => {
     if (loginMutation.isPending) return
     loginMutation.mutate({
-      email: data.username,
+      username: data.username,
       password: data.password,
-    } as AccessToken)
+    } satisfies LoginRequest)
   }
 
   return (
